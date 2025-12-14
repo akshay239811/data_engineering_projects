@@ -30,7 +30,7 @@ import time
 # 1. Use correct catalog + schema
 spark.sql("USE CATALOG food_delivery")
 spark.sql("USE SCHEMA bronze")
-print("📌 Using catalog food_delivery / schema bronze")
+print("Using catalog food_delivery / schema bronze")
 
 # 2. Confluent config (Python client style)
 BASE_CONF = {
@@ -57,7 +57,7 @@ def consume_to_bronze(topic_name: str, table_name: str, max_empty_polls: int = 1
     Read ALL available messages from a Kafka topic using Confluent Consumer
     and write them into food_delivery.bronze.<table_name> as a single 'value' column.
     """
-    print(f"\n📥 Consuming → topic '{topic_name}' → bronze.{table_name}")
+    print(f"\nConsuming → topic '{topic_name}' → bronze.{table_name}")
 
     # Fresh group.id each run so we always read from beginning
     conf = BASE_CONF.copy()
@@ -92,7 +92,7 @@ def consume_to_bronze(topic_name: str, table_name: str, max_empty_polls: int = 1
               f"Check topic name or whether producer ran.")
         return
 
-    print(f"📦 Total messages read from '{topic_name}': {len(rows)}")
+    print(f"Total messages read from '{topic_name}': {len(rows)}")
 
     # Create a single-column DF: value (raw JSON string)
     df = spark.createDataFrame(rows, ["value"])
@@ -100,14 +100,14 @@ def consume_to_bronze(topic_name: str, table_name: str, max_empty_polls: int = 1
     # Overwrite bronze table each time we run this
     df.write.format("delta").mode("overwrite").saveAsTable(f"bronze.{table_name}")
 
-    print(f"✅ Saved {len(rows)} records to food_delivery.bronze.{table_name}")
+    print(f"Saved {len(rows)} records to food_delivery.bronze.{table_name}")
 
 
 # 3. Run for all topics
-consume_to_bronze(TOPICS["orders"],             "raw_orders")
-consume_to_bronze(TOPICS["delivery_status"],    "raw_delivery_status")
+consume_to_bronze(TOPICS["orders"], "raw_orders")
+consume_to_bronze(TOPICS["delivery_status"], "raw_delivery_status")
 consume_to_bronze(TOPICS["restaurant_updates"], "raw_restaurant_updates")
-consume_to_bronze(TOPICS["customer_actions"],   "raw_customer_actions")
+consume_to_bronze(TOPICS["customer_actions"], "raw_customer_actions")
 
 print("\n🎯 Bronze ingestion completed.")
 
