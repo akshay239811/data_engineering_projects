@@ -8,7 +8,7 @@ spark.sql("USE SCHEMA silver")
 
 # COMMAND ----------
 
-print("📌 Using catalog: food_delivery / schema: silver")
+print("Using catalog: food_delivery / schema: silver")
 
 # =========================================================
 # 1. Define Schemas for each JSON payload
@@ -108,7 +108,7 @@ silver_orders = (
 
 silver_orders.write.format("delta").mode("overwrite").saveAsTable("silver.orders")
 
-print(f"✅ silver.orders created with {silver_orders.count()} rows")
+print(f"silver.orders created with {silver_orders.count()} rows")
 
 # COMMAND ----------
 
@@ -143,7 +143,7 @@ order_items = (
 
 order_items.write.format("delta").mode("overwrite").saveAsTable("silver.order_items")
 
-print(f"✅ silver.order_items created with {order_items.count()} rows")
+print(f"silver.order_items created with {order_items.count()} rows")
 
 # COMMAND ----------
 
@@ -166,7 +166,7 @@ delivery_parsed = (
 
 delivery_parsed.write.format("delta").mode("overwrite").saveAsTable("silver.delivery_status")
 
-print(f"✅ silver.delivery_status created with {delivery_parsed.count()} rows")
+print(f"silver.delivery_status created with {delivery_parsed.count()} rows")
 
 # COMMAND ----------
 
@@ -186,7 +186,7 @@ rest_parsed = (
 
 rest_parsed.write.format("delta").mode("overwrite").saveAsTable("silver.restaurant_updates")
 
-print(f"✅ silver.restaurant_updates created with {rest_parsed.count()} rows")
+print(f"silver.restaurant_updates created with {rest_parsed.count()} rows")
 
 # COMMAND ----------
 
@@ -206,6 +206,6 @@ actions_parsed = (
 
 actions_parsed.write.format("delta").mode("overwrite").saveAsTable("silver.customer_actions")
 
-print(f"✅ silver.customer_actions created with {actions_parsed.count()} rows")
+print(f"silver.customer_actions created with {actions_parsed.count()} rows")
 
-print("\n🎉 Silver layer build complete.")
+print("Silver layer build complete.")
